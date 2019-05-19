@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+    xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+    
+    <persistence-unit name="AuroraDB PU" transaction-type="RESOURCE_LOCAL">
+        <!-- Persistence provider (Let us use the one embedded in Liberty) -->
+        <!-- <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>  -->
+         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        
+        <!-- Entity classes (let us consider them all)
+        <class>mysqlDB.model.Platform</class> -->
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    
+        <properties>
+            <!-- The JDBC driver of your database com.mysql.cj.jdbc.Driver -->
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+            <!-- The JDBC URL to the database instance -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://phd-cluster.cluster-cteefpx4qz5b.us-east-1.rds.amazonaws.com:3306/directordb?useSSL=false" />
+            <!-- The database username -->
+            <property name="javax.persistence.jdbc.user" value="" />
+            <!-- The database password -->
+            <property name="javax.persistence.jdbc.password" value="" />
+            
+            <!--  http://wiki.eclipse.org/EclipseLink/Examples/JPA/Logging#Log_Level_Configuration 
+            FINE 
+            <property name="eclipselink.logging.level" value="ALL"/> -->
+            
+        </properties>
+    </persistence-unit>
+</persistence>
