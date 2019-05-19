@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <!DOCTYPE xml> -->
+<!-- The status logger is used internally by log4j2 components. Setting status="debug" 
+	(or "trace") in the configuration will cause this internal logging to be 
+	output to the command line. -->
+	
+<Configuration status="warn"> <!-- package="application.util" status="WARN" -->
+	<!-- 
+	<Properties>
+		<property name="filePattern">${date:yyyy-MM-dd}</property>
+	</Properties>
+	-->
+
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+				
+		<RollingFile name="File">  <!-- File -->
+		 	<FileName>C:\\Dados\\GitHub\\repo_doutorado\\logs\\director.log</FileName>
+		 	<FilePattern>C:\\Dados\\GitHub\\repo_doutorado\\logs\\archive\\director_%d{yyyy-MM-dd}.log</FilePattern>
+		 	<Append>true</Append>
+		 	<ImmediateFlush>true</ImmediateFlush>
+		 	 
+		 	<PatternLayout>
+		 		<Pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Pattern>
+		 	</PatternLayout> 
+			<Policies>				
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="250 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="90" />
+		</RollingFile>
+		
+		<NoSql name="databaseAppender" ignoreExceptions="true" bufferSize="1024">
+		     <CouchDB 
+		     	databaseName="log" 
+        		protocol="http" 
+        		server="director-couchdb.centralus.cloudapp.azure.com"
+        		port="5984" 
+        		username="admin" 
+        		password="" />
+        </NoSql> 
+	</Appenders>
+
+	<Loggers>
+		<Root level="trace"> <!-- error, trace -->
+			<AppenderRef ref="Console" />		
+		</Root>
+		
+		<!-- http://logging.apache.org/log4j/2.x/manual/configuration.html#Additivity --> 
+		<Logger name="utils.LogUtils" level="trace" additivity="true">			
+			<AppenderRef ref="File" />			
+		</Logger>
+		
+		<Logger name="db" level="info" additivity="false">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="File" />
+			<AppenderRef ref="databaseAppender"/>
+		</Logger>  
+		
+	</Loggers>
+</Configuration>
