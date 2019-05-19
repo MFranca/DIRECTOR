@@ -1,0 +1,16 @@
+---
+# all applications use these settings and services
+# cf push director-front-end
+applications:
+- name: director-front-end  
+  memory: 256M
+  instances: 1
+  path: build
+  buildpack: https://github.com/cloudfoundry/staticfile-buildpack#v1.4.35
+  services:
+    #- availability-monitoring-auto
+  env:    
+    #JBP_CONFIG_IBMJDK: 'version: 1.8.+'    
+  routes:
+  - route: director-front-end.mybluemix.net
+      
